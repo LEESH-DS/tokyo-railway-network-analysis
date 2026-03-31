@@ -255,7 +255,6 @@ def get_role_colors():
         "Transfer Hub": "#e39c37",
         "Sub-center": "#8c6bb1",
         "Residential": "#4f9d69",
-        "Mixed": "#9a9a9a",
     }
 
 
@@ -1010,7 +1009,7 @@ for ln in line_names:
         zorder=2
     )
 
-order = ["Mixed", "Residential", "Sub-center", "Transfer Hub", "CBD", "Mega Hub"]
+order = ["Residential", "Sub-center", "Transfer Hub", "CBD", "Mega Hub"]
 
 for rr in order:
     g = plot_df[(plot_df["urban_role"] == rr) & mask].copy()

@@ -3,7 +3,7 @@
 ## Overview
 This project analyzes the railway network in Tokyo's 23 wards to identify the structural roles of stations beyond simple ridership.
 
-Instead of evaluating stations solely by passenger volume, this study incorporates network structure, spatial context, and flow dynamics to uncover hidden functional roles.
+Instead of evaluating stations solely by passenger volume, this study incorporates network structure, spatial context, and diffusion-based signals to uncover hidden functional roles.
 
 ---
 
@@ -13,37 +13,23 @@ In large metropolitan systems like Tokyo, ridership is often used as the primary
 
 However, ridership alone cannot fully capture:
 - structural position in the network
-- flow dynamics between regions
-- functional differences between stations
+- interaction between neighboring stations
+- functional differentiation of urban space
 
-This project aims to overcome these limitations by introducing a **structure-aware signal framework**.
+This project introduces a structure-aware signal framework to address these limitations.
 
 ---
 
 ## Key Idea
 
-### 1. Diffused Signal (Structure-aware signal)
+### Diffused Signal
 
-A signal is constructed by combining ridership with:
+A signal is constructed by combining:
+- ridership
 - urban flow characteristics
-- network topology
-- spatial structure
+- network structure
 
-Then, diffusion is applied over the network to incorporate neighborhood effects.
-
----
-
-### 2. Validation (Regression Test)
-
-To validate the usefulness of the signal:
-
-- Regression analysis was conducted between:
-  - **ridership**
-  - **diffused signal**
-
-Result:
-- Diffused signal explains network structure **better than raw ridership**
-- Demonstrates that structural information is successfully embedded
+This signal is then diffused over the network to incorporate neighborhood effects.
 
 ---
 
@@ -51,165 +37,196 @@ Result:
 
 ### 1. Station Integration
 - Station name normalization
-- DBSCAN clustering to merge nearby stations
+- DBSCAN clustering (eps=50m) to merge nearby stations
+
+Final network:
+- 486 nodes
+- 670 edges
 
 ---
 
 ### 2. Signal Decomposition
 
 Initially:
-- A single composite signal was used
+- A single signal was used
 
-Problem:
-- Different roles were not clearly separable
+Limitation:
+- Role separation was unclear
 
 Solution:
-- Signal was decomposed into **7 axes**
-- Reconstructed into a **multi-dimensional feature space**
+- Signal decomposed into 7 axes
+- Residual excluded → final 6D feature space
 
 ---
 
 ### 3. Feature Space Design
 
-The initial signal was decomposed into 7 axes.
-However, the final model uses a **6-dimensional feature space**, excluding the residual axis.
+Final model uses a 6-dimensional space (excluding residual)
 
 Reason:
-- The residual component showed high correlation with demand
-- It captured scale-driven effects rather than structural characteristics
-- Including it introduced redundancy and distorted the structural interpretation
+- Residual showed high correlation with demand
+- Captured scale effects rather than structure
+- Introduced redundancy and distortion
 
-For example, large stations (e.g., Shinjuku) exhibit extreme demand levels that cannot be explained purely by network structure.
-These scale effects were reflected in both demand and residual, leading to duplication.
-
-Therefore, removing the residual axis improved the clarity and interpretability of the feature space.
+Example:
+- Large stations (e.g., Shinjuku) contain extreme demand not explained by network structure
+- This effect appears in both demand and residual → duplication
 
 ---
 
-### 4. Feature Axes (Core Concepts)
+### 4. Feature Axes
 
-- **Flow**  
-  → Relative inflow/outflow structure in the urban-network context
+- Flow  
+  → Spatial inflow/outflow structure
 
-- **Demand**  
+- Demand  
   → Absolute passenger volume
 
-- **Structure**  
-  → Network position such as centrality and connectivity
+- Structure  
+  → Network centrality, connectivity, and hub exposure
 
-- **Transfer**  
-  → Degree of interchange functionality
+- Transfer  
+  → Interchange functionality
 
-- **Independence**  
-  → Relative isolation from dominant hubs
+- Independence  
+  → Isolation from major hubs
 
-- **Temporal**  
-  → Temporal variation pattern derived from signal growth, slope, and stability
-
-- **Residual (excluded)**  
-  → Non-structural demand component, excluded due to overlap with demand
+- Temporal  
+  → Signal change pattern (growth, slope, stability)
 
 ---
 
-### 5. Clustering (GMM)
+### 5. Clustering
 
-- Gaussian Mixture Model applied
-- Each station assigned **probabilistic cluster membership**
+- Gaussian Mixture Model (K=5)
+- Probabilistic clustering
 
----
+Cluster → Role mapping:
 
-### 6. Role Assignment
-
-Clusters are interpreted as functional roles:
-
-- Mega Hub
-- Business Core
-- Subcenter
-- Residential Area
+- CBD
 - Transfer Hub
-
-Each station receives:
-- role probabilities
-- role-based scores
+- Sub-center
+- Residential
 
 ---
 
-### 7. Entropy (Role Mixing)
+### 6. Regression Validation
 
-Entropy is calculated from cluster probabilities:
+Regression tests were conducted to compare:
 
-- High entropy → mixed role
-- Low entropy → clear role
+- Ridership
+- Diffused signal
+
+Targets:
+- betweenness
+- closeness
+- degree
+- k-core
+- hub exposure
+
+Results:
+
+| Metric       | Ridership | Signal | Δ |
+|-------------|----------|--------|---|
+| betweenness | 0.1489   | 0.2422 | +0.0933 |
+| closeness   | 0.1148   | 0.1274 | +0.0126 |
+| degree      | 0.2245   | 0.2067 | -0.0177 |
+| k-core      | 0.0335   | 0.0428 | +0.0093 |
+| hub_exp     | 0.1594   | 0.1743 | +0.0149 |
+
+→ Diffused signal generally explains network structure better than ridership
 
 ---
 
-### 8. Validation (PCA Projection)
+### 7. Role Distribution
 
-- 6D feature space projected into 2D using PCA
-- Used only for **validation and visualization**
+Final classification:
 
-Important:
-- PCA is NOT used for modeling
-- Maintains interpretability of manually defined axes
+- Residential: 279
+- CBD: 110
+- Transfer Hub: 62
+- Sub-center: 23
+- Mega Hub: 12
 
 ---
 
-## Results
+### 8. PCA Validation
 
-- Stations can be classified into distinct functional roles
-- Structural importance differs from ridership ranking
-- Some low-demand stations have high structural significance
-- High-demand stations may contain non-structural scale effects
+- PC1: 0.4595
+- PC2: 0.2091
+- PC3: 0.1372  
+- Total (PC1~3): 0.8058
+
+→ 6D structure is well preserved in low-dimensional space
 
 ---
 
 ## Visualization
 
-![Network Map](outputs/network_map.png)
-![Role Classification](outputs/role_classification.png)
+### 1. Axis Interpretation
+
+![Axes Map](outputs/axes_map.png)
+![Feature Correlation](outputs/feature_correlation.png)
+
+---
+
+### 2. Role Classification
+
+![Role Map](outputs/role_map.png)
+![Score Map](outputs/score_map.png)
+![Entropy Map](outputs/entropy_map.png)
+
+---
+
+### 3. Validation
+
+![PCA Space](outputs/pca_space.png)
 
 ---
 
 ## Key Insights
 
 - Ridership alone is insufficient to explain station roles
-- Network diffusion captures hidden structural importance
-- Multi-dimensional decomposition is necessary for role separation
-- Probabilistic clustering enables flexible role interpretation
+- Diffusion captures structural importance beyond local demand
+- Multi-dimensional decomposition enables role separation
+- Network structure strongly shapes urban function
 
 ---
 
 ## Limitations
 
 - Feature axes are manually defined → not fully independent
-- PCA improves accuracy but reduces interpretability
-- Trade-off between:
-  - explainability
-  - statistical optimality
+- Some correlation remains between axes
+- Results depend on hyperparameters (DBSCAN, diffusion, GMM)
+- Trade-off between interpretability and statistical optimality
 
 ---
 
 ## Files
 
-- `tokyo-railway-network-analysis.py`: main analysis pipeline
+- `tokyo-railway-network-analysis`: main analysis pipeline
 - `outputs/`: visualization results
 
 ---
 
 ## Data
 
-This project uses National Land Numerical Information (MLIT Japan).
+National Land Numerical Information (MLIT Japan)
 
-Data source:
+- Station data (N05)
+- Railway sections (N05)
+- Administrative boundaries (N03)
+- Ridership (S12)
+- Population flow (ju01)
+
+Download:
 http://nlftp.mlit.go.jp/ksj/
-
-Raw data is not included in this repository.
 
 ---
 
 ## Future Work
 
-- Apply to other metropolitan areas
-- Integrate temporal dynamics
+- Apply to other cities
 - Improve feature independence
-- Explore graph-based deep learning models (GNN)
+- Incorporate temporal dynamics more explicitly
+- Explore GNN-based extensions
