@@ -1,10 +1,10 @@
-# Tokyo Railway Network Analysis
+# tokyo-railway-network-analysis
 
 ## Overview
 This project analyzes the railway network in Tokyo's 23 wards.
 
 ## Files
-- `code.py`: main analysis code
+- `tokyo-railway-network-analysis.py`: main analysis code
 - `data/`: data files
 - `outputs/`: result files
 
