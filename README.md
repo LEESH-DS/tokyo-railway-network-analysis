@@ -5,6 +5,8 @@ This project analyzes the railway network in Tokyo's 23 wards to identify the st
 
 Instead of evaluating stations solely by passenger volume, this study incorporates network structure, spatial context, and diffusion-based signals to uncover hidden functional roles.
 
+
+
 ---
 
 ## Background
@@ -184,12 +186,12 @@ Final classification:
 
 ---
 
-## Key Insights
+Key Insights
 
-- Ridership alone is insufficient to explain station roles
-- Diffusion captures structural importance beyond local demand
-- Multi-dimensional decomposition enables role separation
-- Network structure strongly shapes urban function
+- Ridership alone fails to capture structural importance in urban networks
+- Diffused signals reveal stations that are critical for network connectivity despite lower demand
+- Functional roles of stations emerge from network structure rather than absolute scale
+- Urban space can be interpreted as a combination of interacting roles, not discrete categories
 
 ---
 
@@ -199,6 +201,7 @@ Final classification:
 - Some correlation remains between axes
 - Results depend on hyperparameters (DBSCAN, diffusion, GMM)
 - Trade-off between interpretability and statistical optimality
+- The role classification of some smaller stations is insufficient
 
 ---
 
