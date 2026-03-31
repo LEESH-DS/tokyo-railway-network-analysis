@@ -165,22 +165,22 @@ Final classification:
 
 ### 1. Axis Interpretation
 
-![Axes Map](outputs/axes_map.png)
-![Feature Correlation](outputs/feature_correlation.png)
+![Axes Map](outputs/Axes_Map.png)
+![Feature Correlation](outputs/Feature_Correlation.png)
 
 ---
 
 ### 2. Role Classification
 
-![Role Map](outputs/role_map.png)
-![Score Map](outputs/score_map.png)
-![Entropy Map](outputs/entropy_map.png)
+![Role Map](outputs/Role_Map.png)
+![Score Map](outputs/Score_Map.png)
+![Entropy Map](outputs/Entropy_Map.png)
 
 ---
 
 ### 3. Validation
 
-![PCA Space](outputs/pca_space.png)
+![PCA Space](outputs/PCA_Space.png)
 
 ---
 
