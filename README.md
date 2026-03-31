@@ -186,7 +186,7 @@ Final classification:
 
 ---
 
-Key Insights
+## Key Insights
 
 - Ridership alone fails to capture structural importance in urban networks
 - Diffused signals reveal stations that are critical for network connectivity despite lower demand
