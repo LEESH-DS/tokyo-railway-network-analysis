@@ -1,0 +1,16 @@
+__pycache__/
+.ipynb_checkpoints/
+*.pyc
+*.pyo
+*.pyd
+.env
+
+data/
+*.zip
+*.csv
+*.xlsx
+*.shp
+*.dbf
+*.shx
+*.cpg
+*.prj
