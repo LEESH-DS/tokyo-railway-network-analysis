@@ -701,7 +701,7 @@ nd["sig_local_ratio"] = nd["sig"] / (nd["nb_mean"].fillna(0.0) + LOCAL_EPS)
 
 
 # =========================================================
-# 13. SIGNAL AXES (7D)
+# 13. SIGNAL AXES (6D + residual) 
 # =========================================================
 df = nd.copy()
 
@@ -761,6 +761,11 @@ df["indep"] = (
     0.60 * z(df["hub_exp"]).fillna(0.0)
 )
 
+df["temp"] = (
+    0.45 * z(df["sig_growth"]).fillna(0.0) +
+    0.35 * z(df["sig_slope"]).fillna(0.0) +
+    0.20 * z(df["sig_stab"]).fillna(0.0)
+)
 
 # residual
 exp_feat = [
@@ -777,12 +782,6 @@ rf = sm.OLS(y, sm.add_constant(X)).fit()
 pred_exp = rf.predict(sm.add_constant(X))
 df["resid"] = df["log_rid"] - pred_exp
 df["resid"] = z_clip(df["resid"], 0.01, 0.99)
-
-df["temp"] = (
-    0.45 * z(df["sig_growth"]).fillna(0.0) +
-    0.35 * z(df["sig_slope"]).fillna(0.0) +
-    0.20 * z(df["sig_stab"]).fillna(0.0)
-)
 
 # merge back
 keep = ["node_id", "demand", "flow", "transfer", "struct", "indep", "resid", "temp", "sig_growth", "sig_slope", "sig_stab", "log_rid"]
