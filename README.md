@@ -166,7 +166,34 @@ The spatial distribution of each axis highlights different dimensions of the Tok
 
 ---
 
-### 6. PCA Validation
+### 6. Regression Validation
+
+Regression tests were conducted to compare:
+
+- Ridership
+- Diffused signal
+
+Targets:
+- betweenness
+- closeness
+- degree
+- k-core
+- hub exposure
+
+Results:
+
+| Metric       | Ridership | Signal | Δ |
+|-------------|----------|--------|---|
+| betweenness | 0.1489   | 0.2422 | +0.0933 |
+| closeness   | 0.1148   | 0.1274 | +0.0126 |
+| degree      | 0.2245   | 0.2067 | -0.0177 |
+| k-core      | 0.0335   | 0.0428 | +0.0093 |
+| hub_exp     | 0.1594   | 0.1743 | +0.0149 |
+
+→ Diffused signal generally explains network structure better than ridership
+
+---
+### 7. PCA Validation
 
 → 6D feature space is well preserved (PC1–PC3 explain ~80% of variance)
 
@@ -178,7 +205,7 @@ The PCA plot projects the original 6D feature space onto PC1 and PC2, providing 
 
 ---
 
-### 7. GMM Clustering and Role Assignment
+### 8. GMM Clustering and Role Assignment
 
 Stations were first clustered in the 6D feature space using a Gaussian Mixture Model (GMM, K=5).
 
@@ -230,34 +257,6 @@ Entropy reflects how mixed or ambiguous each station's role profile is.
 
 Higher entropy indicates that multiple role probabilities coexist at a station,
 while lower entropy indicates a clearer single-role assignment.
-
----
-
-### 8. Regression Validation
-
-Regression tests were conducted to compare:
-
-- Ridership
-- Diffused signal
-
-Targets:
-- betweenness
-- closeness
-- degree
-- k-core
-- hub exposure
-
-Results:
-
-| Metric       | Ridership | Signal | Δ |
-|-------------|----------|--------|---|
-| betweenness | 0.1489   | 0.2422 | +0.0933 |
-| closeness   | 0.1148   | 0.1274 | +0.0126 |
-| degree      | 0.2245   | 0.2067 | -0.0177 |
-| k-core      | 0.0335   | 0.0428 | +0.0093 |
-| hub_exp     | 0.1594   | 0.1743 | +0.0149 |
-
-→ Diffused signal generally explains network structure better than ridership
 
 ---
 
