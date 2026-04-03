@@ -260,8 +260,8 @@ Higher entropy indicates more mixed role characteristics.
 - Ridership alone fails to capture structural importance in urban networks
 - Diffused signals reveal hidden structural importance
 - Functional roles emerge from network structure, not just scale
-- Urban space is **continuous, not discrete**
-- **Large hubs shape surrounding stations through network influence**
+- Urban space is continuous, not discrete
+- Large hubs shape surrounding stations through network influence
 
 ---
 
