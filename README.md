@@ -166,7 +166,19 @@ The spatial distribution of each axis highlights different dimensions of the Tok
 
 ---
 
-### 6. GMM Clustering and Role Assignment
+### 6. PCA Validation
+
+→ 6D feature space is well preserved (PC1–PC3 explain ~80% of variance)
+
+#### PCA Space
+
+![PCA Space](outputs/PCA_Space.png)
+
+The PCA plot projects the original 6D feature space onto PC1 and PC2, providing a 2D view of the overall role structure. PC1–PC3 explain about 80% of total variance, suggesting that the main structure is reasonably preserved.
+
+---
+
+### 7. GMM Clustering and Role Assignment
 
 Stations were first clustered in the 6D feature space using a Gaussian Mixture Model (GMM, K=5).
 
@@ -221,16 +233,6 @@ while lower entropy indicates a clearer single-role assignment.
 
 ---
 
-### 7. Mega Hub Fix
-
-Top 12 stations based on ridership (2017) were designated as **Mega Hubs**.
-
-These were treated as fixed anchors to prevent clustering distortion.
-
-This prevents extremely large stations from absorbing nearby stations into the same cluster purely through scale effects.
-
----
-
 ### 8. Regression Validation
 
 Regression tests were conducted to compare:
@@ -268,18 +270,6 @@ Results:
 - Mega Hub: 12
 
 The distribution suggests that the Tokyo network is dominated by residential and ordinary peripheral stations, while strongly central or mixed functional roles are concentrated in a smaller subset of nodes.
-
----
-
-### 10. PCA Validation
-
-→ 6D feature space is well preserved (PC1–PC3 explain ~80% of variance)
-
-#### PCA Space
-
-![PCA Space](outputs/PCA_Space.png)
-
-The PCA plot projects the original 6D feature space onto PC1 and PC2, providing a 2D view of the overall role structure. PC1–PC3 explain about 80% of total variance, suggesting that the main structure is reasonably preserved.
 
 ---
 
