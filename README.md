@@ -6,7 +6,9 @@ A data science project that classifies **station roles in Tokyo’s 23 wards bey
 
 ## Project Overview
 
-This individual project started from a simple question:
+This project analyzes station roles in Tokyo’s 23 wards using a single Python workflow that covers data integration, graph construction, feature design, signal diffusion, validation, and visualization.
+
+It starts from a simple question:
 
 **Can station importance be understood only by passenger volume?**
 
@@ -17,7 +19,7 @@ However, ridership mainly reflects scale and does not fully explain:
 - transfer-oriented vs. business-oriented functions
 - functional variation across urban space
 
-To address this limitation, I built a framework that combines:
+To address this, I combined:
 
 - railway network structure
 - ridership
