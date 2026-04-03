@@ -60,6 +60,7 @@ This process is modeled as:
 
 ```text
 x_{t+1} = αx_0 + (1−α)P x_t
+```
 
 where:
 - P is the transition matrix derived from graph connectivity
