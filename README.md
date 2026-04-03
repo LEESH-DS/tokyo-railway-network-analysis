@@ -214,7 +214,10 @@ The score map shows that roles are not separated by hard boundaries. Instead, st
 
 ![Entropy Map](outputs/Entropy_Map.png)
 
-Entropy is highest around central mixed-use areas, where multiple role probabilities coexist, and lower in peripheral zones with clearer single-role characteristics.
+Entropy reflects how mixed or ambiguous each station's role profile is.
+
+Higher entropy indicates that multiple role probabilities coexist at a station,
+while lower entropy indicates a clearer single-role assignment.
 
 ---
 
@@ -230,11 +233,29 @@ This prevents extremely large stations from absorbing nearby stations into the s
 
 ### 8. Regression Validation
 
-Diffused signal vs ridership:
+Regression tests were conducted to compare:
 
-→ Signal explains network structure better in most metrics
+- Ridership
+- Diffused signal
 
-This supports the main hypothesis of the project: a network-aware signal is generally more informative than raw ridership when explaining structural properties.
+Targets:
+- betweenness
+- closeness
+- degree
+- k-core
+- hub exposure
+
+Results:
+
+| Metric       | Ridership | Signal | Δ |
+|-------------|----------|--------|---|
+| betweenness | 0.1489   | 0.2422 | +0.0933 |
+| closeness   | 0.1148   | 0.1274 | +0.0126 |
+| degree      | 0.2245   | 0.2067 | -0.0177 |
+| k-core      | 0.0335   | 0.0428 | +0.0093 |
+| hub_exp     | 0.1594   | 0.1743 | +0.0149 |
+
+→ Diffused signal generally explains network structure better than ridership
 
 ---
 
@@ -258,7 +279,7 @@ The distribution suggests that the Tokyo network is dominated by residential and
 
 ![PCA Space](outputs/PCA_Space.png)
 
-The PCA projection shows that the major role groups remain interpretable even in reduced dimensions. In particular, central and high-importance stations tend to spread along the first principal axis, while independence-related variation is reflected along the second axis.
+The PCA plot projects the original 6D feature space onto PC1 and PC2, providing a 2D view of the overall role structure. PC1–PC3 explain about 80% of total variance, suggesting that the main structure is reasonably preserved.
 
 ---
 
