@@ -79,7 +79,7 @@ To represent the railway network structure, the following graph-based features w
 - degree
 - number of connected lines (`n_lines`)
 - transfer indicator (`is_transfer`)
-- betweenness / closeness centrality
+- centrality ('betweenness / closeness')
 - k-core
 - two-hop reachability (`reach2`)
 - neighbor ridership statistics
@@ -117,8 +117,9 @@ A station-level signal is constructed by combining:
   - inter-municipality outflow rate
 - **Network structure**
   - degree
-  - centrality measures
-  - number of lines
+  - betweenness
+  - closeness
+  - number of connected lines
 
 These components are normalized and combined into a base signal.
 
@@ -167,6 +168,8 @@ The final model uses a **6-dimensional feature space**, excluding the residual a
 - it introduced redundancy and distortion
 
 #### Final axes
+
+The final axes were constructed by combining graph-based features, flow-context variables, and signal-derived temporal features, rather than relying on single raw variables.
 
 - **Flow**: local inflow/outflow structure
 - **Demand**: ridership scale and trend
