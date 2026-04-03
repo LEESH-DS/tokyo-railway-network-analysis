@@ -72,24 +72,41 @@ Final network:
 
 ---
 
-### 2. Network Feature Construction
+### 2. Structural Feature Construction
 
-To represent structural properties of stations, the following graph-based features were constructed:
+To represent the railway network structure, the following graph-based features were constructed:
 
-- **n_lines**: number of railway lines connected to each station
-- **is_transfer**: indicator of transfer stations (2 or more lines)
-- **betweenness / closeness centrality**: network importance and accessibility
-- **k-core**: embeddedness in the network core
-- **reach2**: number of stations reachable within two hops
-- **neighbor ridership statistics**: mean / median / max ridership of adjacent stations
-- **rid_nb_ratio**: relative scale compared to neighboring stations
-- **hub exposure**: influence received from major hub stations across the network
+- degree
+- number of connected lines (`n_lines`)
+- transfer indicator (`is_transfer`)
+- betweenness / closeness centrality
+- k-core
+- two-hop reachability (`reach2`)
+- neighbor ridership statistics
+- relative local scale (`rid_nb_ratio`)
+- hub exposure
 
-These features were combined with demand and flow signals to capture stations from multiple structural perspectives.
+These features were used to capture connectivity, centrality, and relative structural position in the railway graph.
 
 ---
 
-### 3. Diffused Signal
+### 3. Flow and Spatial Context
+
+In addition to graph structure, the model incorporates demand and urban flow context.
+
+The following variables were derived from ward-level population-flow data:
+
+- ridership
+- day/night population ratio
+- net inflow
+- inter-municipality outflow rate
+- inter-prefecture inflow rate
+
+To better reflect stations near administrative boundaries, these values were further adjusted into local context variables using boundary-based blending with neighboring wards.
+
+---
+
+### 4. Diffused Signal
 
 A station-level signal is constructed by combining:
 
@@ -120,7 +137,7 @@ This allows the signal to capture both **local neighborhood effects** and **glob
 
 ---
 
-### 4. Signal Decomposition
+### 5. Signal Decomposition
 
 The initial approach used a single signal.
 
@@ -139,7 +156,7 @@ To improve interpretability, the signal was decomposed into multiple axes:
 
 ---
 
-### 5. Feature Axes
+### 6. Feature Axes
 
 The final model uses a **6-dimensional feature space**, excluding the residual axis.
 
@@ -173,7 +190,7 @@ These maps highlight different spatial dimensions of the Tokyo railway system.
 
 ---
 
-### 6. Regression Validation
+### 7. Regression Validation
 
 Regression tests were conducted to compare:
 
@@ -202,7 +219,7 @@ Overall, the diffused signal explains network structure better than ridership on
 
 ---
 
-### 7. PCA Validation
+### 8. PCA Validation
 
 The 6D feature space is well preserved, with **PC1–PC3 explaining about 80% of the variance**.
 
@@ -214,7 +231,7 @@ This projection suggests that the feature space is structured and interpretable 
 
 ---
 
-### 8. GMM Clustering and Role Assignment
+### 9. GMM Clustering and Role Assignment
 
 Stations were first clustered in the 6D feature space using a **Gaussian Mixture Model (GMM, K = 5)**.
 
@@ -270,7 +287,7 @@ Higher entropy indicates more mixed role characteristics.
 
 ---
 
-### 9. Role Distribution
+### 10. Role Distribution
 
 - **Residential:** 279
 - **CBD:** 110
