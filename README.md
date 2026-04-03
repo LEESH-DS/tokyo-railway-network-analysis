@@ -108,7 +108,7 @@ Solution:
 
 ---
 
-### 4. Feature Decomposition
+### 4. Signal Decomposition
 
 Final model uses a 6-dimensional space (excluding residual)
 
