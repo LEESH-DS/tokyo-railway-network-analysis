@@ -1,31 +1,43 @@
 # Tokyo Railway Network Analysis
 
-A graph-based urban analytics project that identifies **station roles in Tokyo’s 23 wards beyond ridership alone**.
+![](outputs/Role_Map.png)
 
-Instead of evaluating stations only by passenger volume, this project combines **ridership, urban flow, network structure, and diffusion-based signals** to reveal hidden functional roles across the railway network.
+A data science project that classifies **station roles in Tokyo’s 23 wards beyond ridership alone**.
+
+This project asks a simple question:
+
+**Can station importance be understood only by passenger volume?**
+
+To answer this, I built a structure-aware analytical framework that integrates:
+
+- railway network structure
+- ridership
+- urban flow context
+- diffusion-based signals
+- unsupervised role classification
 
 ---
 
 ## Overview
 
-In large metropolitan systems like Tokyo, ridership is often treated as the main indicator of station importance.  
-However, passenger volume alone cannot fully explain:
+In large metropolitan railway systems such as Tokyo, station importance is often measured by ridership.  
+However, passenger volume alone does not fully explain:
 
-- structural position in the network
-- interaction with neighboring stations
-- functional differences across urban space
+- structural importance in the network
+- differences between transfer-oriented and business-oriented stations
+- functional variation across urban space
 
-This project addresses that limitation by building a **structure-aware signal framework** that incorporates both **network effects** and **spatial context**.
+This project addresses that limitation by combining **graph analysis, spatial context, and interpretable feature design** to classify station roles across Tokyo’s 23 wards.
 
 ---
 
 ## Key Results
 
 - Built an integrated railway graph with **486 nodes** and **670 edges**
-- Constructed a **6-dimensional feature space** for station role analysis
-- Found that the **diffused signal outperformed ridership on most tested structural metrics**
-- Identified interpretable station roles across Tokyo’s railway network:
-  - **CBD (Central Business District)**
+- Constructed a **6-dimensional feature space** for role analysis
+- Confirmed that the **diffused signal outperformed ridership on most tested structural metrics**
+- Identified interpretable station roles:
+  - **CBD**
   - **Transfer Hub**
   - **Sub-center**
   - **Residential**
@@ -33,26 +45,33 @@ This project addresses that limitation by building a **structure-aware signal fr
 
 ---
 
-## Why It Matters
+## Why This Project Matters
 
-This approach helps:
+Ridership mainly reflects scale.  
+But in a real urban railway system, station function is also shaped by:
 
-- identify structurally important stations that ridership alone may overlook
-- understand urban functional zones beyond administrative boundaries
-- support data-driven transportation and urban planning
+- connectivity
+- transfer structure
+- neighborhood influence
+- surrounding urban context
 
-More broadly, the project shows that **station importance is shaped not only by demand, but also by connectivity, neighborhood influence, and structural position in the network**.
+This project shows that stations are better interpreted not as a single ranked list, but as nodes with different **structural and functional roles**.
+
+More broadly, this project demonstrates how urban data science can move beyond simple size-based ranking through **problem redefinition, feature design, validation, and interpretation**.
 
 ---
 
-## What This Project Shows
+## My Contribution
 
-This repository demonstrates how to:
+This is an individual project in which I handled the full end-to-end workflow:
 
-- integrate spatial railway data into a graph-based station network
-- construct diffusion-based structural signals
-- decompose station characteristics into multiple interpretable axes
-- classify urban station roles using unsupervised learning
+- defined the research question and analytical framework
+- cleaned and integrated raw railway and spatial datasets
+- constructed graph-based, flow-based, and signal-based features
+- redesigned the representation after identifying limitations in the initial single-signal approach
+- validated the framework through regression comparison and PCA
+- interpreted clustering results and mapped them into functional station roles
+- visualized the results for metropolitan-scale analysis
 
 ---
 
@@ -63,7 +82,7 @@ This repository demonstrates how to:
 To construct a usable railway network, station records were cleaned and integrated through:
 
 - station name normalization
-- DBSCAN clustering (50m) to merge nearby stations
+- DBSCAN clustering (50m) for nearby station merging
 
 Final network:
 
@@ -72,60 +91,37 @@ Final network:
 
 ---
 
-### 2. Structural Feature Construction
+### 2. Feature Construction
 
-To represent the railway network structure, the following graph-based features were constructed:
+Each station was represented from multiple perspectives.
 
+#### Network structure features
 - degree
 - number of connected lines (`n_lines`)
 - transfer indicator (`is_transfer`)
-- centrality ('betweenness / closeness')
+- betweenness / closeness centrality
 - k-core
 - two-hop reachability (`reach2`)
 - neighbor ridership statistics
 - relative local scale (`rid_nb_ratio`)
 - hub exposure
 
-These features were used to capture connectivity, centrality, and relative structural position in the railway graph.
-
----
-
-### 3. Flow and Spatial Context
-
-In addition to graph structure, the model incorporates demand and urban flow context.
-
-The following variables were derived from ward-level population-flow data:
-
+#### Demand and urban flow features
 - ridership
 - day/night population ratio
 - net inflow
 - inter-municipality outflow rate
 - inter-prefecture inflow rate
 
-To better reflect stations near administrative boundaries, these values were further adjusted into local context variables using boundary-based blending with neighboring wards.
+To better reflect stations near administrative boundaries, flow-related variables were adjusted using boundary-based blending with neighboring wards.
 
 ---
 
-### 4. Diffused Signal
+### 3. Diffused Signal
 
-A station-level signal is constructed by combining:
+A station-level signal was constructed by combining ridership, urban flow indicators, and network-structure features.
 
-- **Ridership (S12 data)**
-- **Urban flow indicators**
-  - day/night population ratio
-  - inter-prefecture inflow rate
-  - inter-municipality outflow rate
-- **Network structure**
-  - degree
-  - betweenness
-  - closeness
-  - number of connected lines
-
-These components are normalized and combined into a base signal.
-
-The signal is then propagated through the network so that each station reflects not only its own characteristics, but also the influence of nearby stations.
-
-This process is modeled as:
+The base signal was then propagated over the railway graph so that each station reflects not only its own characteristics, but also the influence of nearby stations.
 
     x(t+1) = α·x₀ + (1−α)·P·x_t
 
@@ -134,42 +130,33 @@ where:
 - `P` is the transition matrix derived from graph connectivity
 - `α` controls how much of the original signal is preserved
 
-This allows the signal to capture both **local neighborhood effects** and **global structural influence**.
+This allows the representation to capture both **local neighborhood effects** and **global structural influence**.
 
 ---
 
-### 5. Signal Decomposition
+### 4. From a Single Signal to a Multi-Axis Representation
 
-The initial approach used a single signal.
+The initial approach used a single signal to represent station importance.
 
 #### Limitation
-
 - role separation was unclear
-- large hubs strongly influenced surrounding stations (**hub dominance effect**)
+- large hubs strongly influenced surrounding stations
+- the signal reflected scale, but not enough functional distinction
 
-#### Solution
-
+#### Improvement
 To improve interpretability, the signal was decomposed into multiple axes:
 
-- initially decomposed into **7 axes**
+- initially **7 axes**
 - the **residual axis was excluded**
-- the final representation became a **6-dimensional feature space**
+- the final model used a **6-dimensional feature space**
+
+This redesign was a key step in the project, shifting the analysis from a single importance score to a more interpretable representation of station roles.
 
 ---
 
-### 6. Feature Axes
+### 5. Final Feature Axes
 
-The final model uses a **6-dimensional feature space**, excluding the residual axis.
-
-#### Why the residual axis was removed
-
-- it showed high correlation with demand
-- it mainly captured scale effects rather than structure
-- it introduced redundancy and distortion
-
-#### Final axes
-
-The final axes were constructed by combining graph-based features, flow-context variables, and signal-derived temporal features, rather than relying on single raw variables.
+The final model uses the following six axes:
 
 - **Flow**: local inflow/outflow structure
 - **Demand**: ridership scale and trend
@@ -183,7 +170,7 @@ The final axes were constructed by combining graph-based features, flow-context 
 ![Feature Correlation](outputs/Feature_Correlation.png)
 
 The axes are related but not fully redundant.  
-In particular, **independence** tends to show an opposite pattern from the more centrality-oriented axes.
+In particular, **independence** shows an opposite tendency from more centrality-oriented axes, supporting its role as a complementary dimension.
 
 #### Axis Maps
 
@@ -193,15 +180,14 @@ These maps highlight different spatial dimensions of the Tokyo railway system.
 
 ---
 
-### 7. Regression Validation
+### 6. Regression Validation
 
-Regression tests were conducted to compare:
+To test whether the proposed signal captures railway structure better than simple passenger volume, regression tests were conducted using:
 
 - **Ridership**
 - **Diffused signal**
 
 #### Targets
-
 - betweenness
 - closeness
 - degree
@@ -218,31 +204,30 @@ Regression tests were conducted to compare:
 | k-core      | 0.0335    | 0.0428 | +0.0093 |
 | hub_exp     | 0.1594    | 0.1743 | +0.0149 |
 
-Overall, the diffused signal explains network structure better than ridership on most evaluated metrics.
+Overall, the diffused signal explains network-related structure better than ridership on most evaluated metrics.
+
+This suggests that **station importance in an urban railway system cannot be sufficiently understood through demand alone**.
 
 ---
 
-### 8. PCA Validation
+### 7. PCA Validation
 
-The 6D feature space is well preserved, with **PC1–PC3 explaining about 80% of the variance**.
-
-#### PCA Space
+The 6D feature space is reasonably preserved, with **PC1–PC3 explaining about 80% of the variance**.
 
 ![PCA Space](outputs/PCA_Space.png)
 
-This projection suggests that the feature space is structured and interpretable rather than excessively redundant.
+This suggests that the feature space is structured and interpretable rather than excessively redundant.
 
 ---
 
-### 9. GMM Clustering and Role Assignment
+### 8. GMM Clustering and Role Assignment
 
-Stations were first clustered in the 6D feature space using a **Gaussian Mixture Model (GMM, K = 5)**.
+Stations were clustered in the 6D feature space using a **Gaussian Mixture Model (GMM, K = 5)**.
 
-Rather than directly interpreting GMM clusters as named urban roles, each cluster was mapped using **role-specific scoring rules** based on its feature profile.
+Rather than directly interpreting clusters as labels, each cluster was mapped using **role-specific scoring rules** based on feature profiles.
 
-#### Role Assignment Logic
-
-- **CBD (Central Business District)**
+#### Role profiles
+- **CBD**
   - high flow
   - high demand
   - high structure
@@ -259,28 +244,15 @@ Rather than directly interpreting GMM clusters as named urban roles, each cluste
   - low structure
   - higher independence
 
-Clusters were mapped to roles by comparing these score profiles.
-
-Station-level role probabilities were then **aggregated from GMM component probabilities**.
-
-Each station was assigned:
-
-- role probabilities
-- a final role based on maximum probability
-
-To prevent the largest stations from dominating the interpretation of other roles, the **top 12 stations were treated separately as Mega Hubs**.
+To prevent the largest stations from dominating the interpretation of all other roles, the **top 12 stations were treated separately as Mega Hubs**.
 
 #### Role Map
 
 ![Role Map](outputs/Role_Map.png)
 
-The spatial pattern is interpretable at the metropolitan scale.
-
 #### Score Map
 
 ![Score Map](outputs/Score_Map.png)
-
-The score map suggests that station roles form continuous gradients rather than hard boundaries.
 
 #### Functional Mixing (Entropy)
 
@@ -290,7 +262,7 @@ Higher entropy indicates more mixed role characteristics.
 
 ---
 
-### 10. Role Distribution
+## Role Distribution
 
 - **Residential:** 279
 - **CBD:** 110
@@ -303,37 +275,27 @@ Higher entropy indicates more mixed role characteristics.
 ## Key Insights
 
 - Ridership alone does not fully capture structural importance in urban railway networks.
-- Diffused signals reveal hidden structural importance by incorporating neighborhood and network effects.
-- Functional roles emerge from a combination of **demand, flow, and structure**, not from scale alone.
-- Urban space is better understood as a **continuous functional gradient** than as a fixed set of discrete categories.
-- Large hubs shape surrounding stations through network influence.
-
----
-
-## Contribution
-
-This project contributes:
-
-- a **multi-axis (6D) structural representation** of stations
-- a **diffusion-based signal modeling framework**
-- a **network-aware interpretation of urban roles**
-- an example of combining **spatial data, graph analysis, and unsupervised learning** for urban analytics
+- Station roles are better understood through multiple dimensions than through a single scale of importance.
+- Diffused signals reveal hidden structural influence by incorporating neighborhood and network effects.
+- Functional roles emerge from the interaction of **demand, flow, and structure**.
+- Urban space is better interpreted as a **continuous functional gradient** than as a fixed set of discrete categories.
 
 ---
 
 ## Data
 
-- **Ridership data:** 2011–2017
-- **Reference year:** 2017
-- **Temporal features:** derived from multi-year trends
-
-**Data source:** National Land Numerical Information (MLIT Japan)
+**Source:** National Land Numerical Information (MLIT Japan)
 
 - Station data (`N05`)
 - Railway sections (`N05`)
 - Administrative boundaries (`N03`)
 - Ridership (`S12`)
 - Population flow (`ju01`)
+
+Additional settings:
+- **Ridership period:** 2011–2017
+- **Reference year:** 2017
+- **Temporal features:** derived from multi-year trends
 
 Download: http://nlftp.mlit.go.jp/ksj/
 
@@ -351,18 +313,11 @@ Download: http://nlftp.mlit.go.jp/ksj/
 
 ---
 
-## Limitations
+## Repository Structure
 
-- some feature axes are manually defined
-- some correlation remains between axes
-- results are sensitive to hyperparameter choices
-- classification of smaller stations remains limited
-
----
-
-## Future Work
-
-- apply the framework to other cities
-- improve feature independence
-- extend temporal modeling
-- explore graph neural network approaches
+```bash
+.
+├── data/                # raw / processed datasets
+├── outputs/             # maps and figures used in README
+├── notebooks/ or src/   # analysis scripts or notebooks
+└── README.md
