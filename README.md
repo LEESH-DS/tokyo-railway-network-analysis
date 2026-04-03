@@ -6,9 +6,7 @@ A data science project that classifies **station roles in Tokyo’s 23 wards bey
 
 ## Project Overview
 
-This individual project focuses on classifying station roles in Tokyo’s 23 wards by integrating railway network structure, ridership, urban flow, and diffusion-based signals.
-
-This project starts from a simple question:
+This was an individual end-to-end project that started from a simple question:
 
 **Can station importance be understood only by passenger volume?**
 
