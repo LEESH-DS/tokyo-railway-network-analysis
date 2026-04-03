@@ -116,6 +116,8 @@ To improve interpretability, I decomposed the representation into multiple axes.
 - final design: **6 axes**
 - the residual axis was removed because it was highly correlated with demand and added redundancy
 
+## Final Feature Axes
+
 The final model uses the following six axes:
 
 - **Flow**
@@ -124,6 +126,18 @@ The final model uses the following six axes:
 - **Transfer**
 - **Independence**
 - **Temporal**
+
+### Feature Correlation
+
+![Feature Correlation](outputs/Feature_Correlation.png)
+
+The axes are related but not fully redundant. In particular, **independence** tends to show an opposite pattern from more centrality-oriented axes, supporting its role as a complementary dimension.
+
+### Axis Map
+
+![Axes Map](outputs/Axes_Map.png)
+
+These maps show that different axes capture different spatial characteristics of Tokyo’s railway system.
 
 ---
 
