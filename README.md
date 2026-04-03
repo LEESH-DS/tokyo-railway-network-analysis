@@ -169,7 +169,7 @@ This suggests that the feature space is structured and interpretable rather than
 
 ## Clustering and Role Assignment
 
-Stations were clustered in the 6D feature space using a **Gaussian Mixture Model (GMM, K = 5)**.
+Stations were clustered in the 6D feature space using a **Gaussian Mixture Model (GMM)**.
 
 Rather than directly treating clusters as labels, I mapped them into interpretable roles using feature-based scoring rules.
 
