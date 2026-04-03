@@ -89,26 +89,7 @@ These features were combined with demand and flow signals to capture stations fr
 
 ---
 
-### 3. Signal Construction
-
-The initial approach used a single signal.
-
-#### Limitation
-
-- role separation was unclear
-- large hubs strongly influenced surrounding stations (**hub dominance effect**)
-
-#### Solution
-
-To improve interpretability, the signal was decomposed into multiple axes:
-
-- initially decomposed into **7 axes**
-- the **residual axis was excluded**
-- the final representation became a **6-dimensional feature space**
-
----
-
-### 4. Diffused Signal
+### 3. Diffused Signal
 
 A station-level signal is constructed by combining:
 
@@ -136,6 +117,25 @@ where:
 - `α` controls how much of the original signal is preserved
 
 This allows the signal to capture both **local neighborhood effects** and **global structural influence**.
+
+---
+
+### 4. Signal Decomposition
+
+The initial approach used a single signal.
+
+#### Limitation
+
+- role separation was unclear
+- large hubs strongly influenced surrounding stations (**hub dominance effect**)
+
+#### Solution
+
+To improve interpretability, the signal was decomposed into multiple axes:
+
+- initially decomposed into **7 axes**
+- the **residual axis was excluded**
+- the final representation became a **6-dimensional feature space**
 
 ---
 
