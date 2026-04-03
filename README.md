@@ -132,23 +132,29 @@ This step improved interpretability by reducing duplication between size-related
 
 ### 5. Feature Axes
 
-- **Demand**  
-  → Ridership scale and trend  
-
 - **Flow**  
   → Local inflow/outflow structure  
+  (derived from day/night population ratio, net inflow, inflow rate, and outflow rate)
+
+- **Demand**  
+  → Ridership scale and trend  
+  (constructed from ridership level, slope, stability, and signal growth)
 
 - **Structure**  
   → Network topology and structural importance  
+  (constructed from degree, closeness, k-core, hub exposure, and signal-based structure)
 
 - **Transfer**  
   → Interchange functionality  
+  (constructed from number of lines, transfer indicator, and betweenness centrality)
 
 - **Independence**  
-  → Relative separation from mega hubs  
+  → Relative separation from major hubs  
+  (constructed from neighboring ridership ratio and inverse hub exposure)
 
 - **Temporal**  
   → Temporal change pattern of station signal  
+  (constructed from signal growth, slope, and stability)
 
 The six axes are designed to represent complementary aspects of station function rather than a single notion of importance.
 
