@@ -6,7 +6,7 @@ A data science project that classifies **station roles in Tokyo’s 23 wards bey
 
 ## Project Overview
 
-This was an individual end-to-end project that started from a simple question:
+This individual project started from a simple question:
 
 **Can station importance be understood only by passenger volume?**
 
@@ -17,7 +17,7 @@ However, ridership mainly reflects scale and does not fully explain:
 - transfer-oriented vs. business-oriented functions
 - functional variation across urban space
 
-To address this, I built a framework that combines:
+To address this limitation, I built a framework that combines:
 
 - railway network structure
 - ridership
@@ -26,7 +26,6 @@ To address this, I built a framework that combines:
 - unsupervised role classification
 
 Rather than treating stations as a single ranked list, this project interprets them as nodes with different **structural and functional roles**.
-
 ---
 
 ## Key Results
