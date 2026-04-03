@@ -286,6 +286,16 @@ Higher entropy indicates more mixed role characteristics.
 - 2017 used as **reference anchor**
 - Temporal features derived from multi-year trends
 
+Data source: **National Land Numerical Information (MLIT Japan)**
+
+- Station data (N05)
+- Railway sections (N05)
+- Administrative boundaries (N03)
+- Ridership (S12)
+- Population flow (ju01)
+
+Download: http://nlftp.mlit.go.jp/ksj/
+
 ---
 
 ## Future Work
