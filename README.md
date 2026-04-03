@@ -233,10 +233,8 @@ Download: http://nlftp.mlit.go.jp/ksj/
 
 ---
 
-## Limitations
+## Limitations and Future Work
 
-- some feature axes are manually defined
-- some correlation remains between axes
-- results are sensitive to hyperparameter choices
-- classification of smaller stations remains limited
-
+- role definitions can be further refined
+- hyperparameter sensitivity can be tested more systematically
+- future extensions may include GNN-based representation learning
