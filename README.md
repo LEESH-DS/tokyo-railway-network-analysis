@@ -144,6 +144,7 @@ Reason:
 ![Feature Correlation](outputs/Feature_Correlation.png)
 
 The axes are related but not fully redundant.
+
 In particular, **independence** tends to show an opposite pattern to the more centrality-oriented axes.
 
 #### Axis Maps
