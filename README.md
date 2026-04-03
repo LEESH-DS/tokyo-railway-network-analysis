@@ -37,7 +37,7 @@ This project addresses that limitation by combining **graph analysis, spatial co
 - Constructed a **6-dimensional feature space** for role analysis
 - Confirmed that the **diffused signal outperformed ridership on most tested structural metrics**
 - Identified interpretable station roles:
-  - **CBD**
+  - **CBD (Central Business District)**
   - **Transfer Hub**
   - **Sub-center**
   - **Residential**
