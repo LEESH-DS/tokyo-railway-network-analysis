@@ -58,7 +58,7 @@ In other words, a station located near a major hub will partially inherit its st
 
 This process is modeled as:
 
-x₍ₜ₊₁₎ = α·x₀ + (1−α)·P·x_t
+xₜ₊₁ = α·x₀ + (1−α)·P·x_t
 
 where:
 - P is the transition matrix derived from graph connectivity
