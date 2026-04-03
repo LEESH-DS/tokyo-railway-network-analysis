@@ -54,18 +54,15 @@ These components are normalized and combined into a base signal.
 
 The signal is propagated through the network so that each station reflects not only its own characteristics, but also the influence of nearby stations.
 
-In other words, a station located near a major hub will partially inherit its structural importance.
-
 This process is modeled as:
 
-xₜ₊₁ = α·x₀ + (1−α)·P·x_t
+    x(t+1) = α·x₀ + (1−α)·P·x_t
 
 where:
 - P is the transition matrix derived from graph connectivity
 - α controls how much of the original signal is preserved
 
-Through this iterative process, the signal spreads across the network,
-capturing both local and global structural effects.
+This allows the signal to capture both local and global structural effects.
 
 ---
 
@@ -85,18 +82,14 @@ Final network:
 
 To represent structural properties of stations, the following graph-based features were constructed:
 
-- **n_lines**: number of railway lines connected to each station
-- **is_transfer**: binary indicator of transfer stations (2 or more lines)
-- **betweenness centrality**: extent to which a station lies on shortest paths
-- **closeness centrality**: proximity to other stations in the network
-- **k-core**: embeddedness in the network core
-- **articulation flag**: whether removing the station disconnects the graph
-- **reach2**: number of stations reachable within two hops
-- **neighbor ridership statistics**: mean / median / max ridership of adjacent stations
-- **rid_nb_ratio**: ratio between a station's own ridership and neighboring ridership
-- **hub exposure**: influence received from major hub stations over the network
-
-These features provide the structural basis for later signal construction and role interpretation.
+- **n_lines**: number of railway lines connected to each station  
+- **is_transfer**: indicator of transfer stations (2 or more lines)  
+- **betweenness / closeness centrality**: network importance and accessibility  
+- **k-core**: embeddedness in the network core  
+- **reach2**: number of stations reachable within two hops  
+- **neighbor ridership statistics**: mean / median / max ridership of adjacent stations  
+- **rid_nb_ratio**: relative scale compared to neighboring stations  
+- **hub exposure**: influence received from major hub stations across the network
 
 ---
 
@@ -113,8 +106,6 @@ Solution:
 - Signal decomposed into 7 axes
 - Residual excluded → final 6D feature space
 
-This decomposition was introduced to separate different aspects of station function that were previously mixed into a single value.
-
 ---
 
 ### 4. Feature Decomposition
@@ -126,49 +117,39 @@ Reason:
 - Captured scale effects rather than structure
 - Introduced redundancy and distortion
 
-This step improved interpretability by reducing duplication between size-related and structure-related information.
-
 ---
 
 ### 5. Feature Axes
 
 - **Flow**  
-  → Local inflow/outflow structure  
-  (derived from day/night population ratio, net inflow, inflow rate, and outflow rate)
+  → Local inflow/outflow structure
 
 - **Demand**  
-  → Ridership scale and trend  
-  (constructed from ridership level, slope, stability, and signal growth)
+  → Ridership scale and trend
 
 - **Structure**  
-  → Network topology and structural importance  
-  (constructed from degree, closeness, k-core, hub exposure, and signal-based structure)
+  → Network topology and structural importance
 
 - **Transfer**  
-  → Interchange functionality  
-  (constructed from number of lines, transfer indicator, and betweenness centrality)
+  → Interchange functionality
 
 - **Independence**  
-  → Relative separation from major hubs  
-  (constructed from neighboring ridership ratio and inverse hub exposure)
+  → Relative separation from major hubs
 
 - **Temporal**  
-  → Temporal change pattern of station signal  
-  (constructed from signal growth, slope, and stability)
-
-The six axes are designed to represent complementary aspects of station function rather than a single notion of importance.
+  → Temporal change pattern of station signal
 
 #### Feature Correlation
 
 ![Feature Correlation](outputs/Feature_Correlation.png)
 
-The correlation structure shows that some axes are related, but they are not fully redundant. In particular, **structure**, **flow**, and **transfer** are positively associated, while **independence** tends to move in the opposite direction.
+The axes are related but not fully redundant.
 
 #### Axis Maps
 
 ![Axes Map](outputs/Axes_Map.png)
 
-The spatial distribution of each axis highlights different dimensions of the Tokyo railway system, including centrality concentration, peripheral independence, and corridor-based transfer patterns.
+The maps highlight different spatial dimensions of the Tokyo railway system.
 
 ---
 
@@ -199,6 +180,7 @@ Results:
 → Diffused signal generally explains network structure better than ridership
 
 ---
+
 ### 7. PCA Validation
 
 → 6D feature space is well preserved (PC1–PC3 explain ~80% of variance)
@@ -207,7 +189,7 @@ Results:
 
 ![PCA Space](outputs/PCA_Space.png)
 
-The PCA plot projects the original 6D feature space onto PC1 and PC2, providing a 2D view of the overall role structure. PC1–PC3 explain about 80% of total variance, suggesting that the main structure is reasonably preserved.
+The plot projects the original 6D feature space onto PC1 and PC2.
 
 ---
 
@@ -239,30 +221,25 @@ Each station was assigned:
 - role probabilities
 - a final role (maximum probability)
 
-**Each station retains a probabilistic role profile**, allowing mixed functional characteristics.
-
 Top 12 stations were separately defined as **Mega Hubs**.
 
 #### Role Map
 
 ![Role Map](outputs/Role_Map.png)
 
-The resulting spatial pattern is interpretable at the metropolitan scale: **CBD** stations are concentrated in central Tokyo, **Residential** stations dominate peripheral areas, and **Transfer Hub** stations align with major interchange corridors.
+The spatial pattern is interpretable at the metropolitan scale.
 
 #### Score Map
 
 ![Score Map](outputs/Score_Map.png)
 
-The score map shows that roles are not separated by hard boundaries. Instead, stations lie on continuous gradients between role types, which supports the use of probabilistic clustering.
+The score map suggests that roles form continuous gradients rather than hard boundaries.
 
 #### Functional Mixing (Entropy)
 
 ![Entropy Map](outputs/Entropy_Map.png)
 
-Entropy reflects how mixed or ambiguous each station's role profile is.
-
-Higher entropy indicates that multiple role probabilities coexist at a station,
-while lower entropy indicates a clearer single-role assignment.
+Higher entropy indicates more mixed role characteristics.
 
 ---
 
@@ -274,8 +251,6 @@ while lower entropy indicates a clearer single-role assignment.
 - Sub-center: 23
 - Mega Hub: 12
 
-The distribution suggests that the Tokyo network is dominated by residential and ordinary peripheral stations, while strongly central or mixed functional roles are concentrated in a smaller subset of nodes.
-
 ---
 
 ## Key Insights
@@ -286,8 +261,6 @@ The distribution suggests that the Tokyo network is dominated by residential and
 - Urban space is **continuous, not discrete**
 - **Large hubs shape surrounding stations through network influence**
 
-These findings suggest that urban railway systems should be interpreted as layered functional structures rather than simple rankings of busy stations.
-
 ---
 
 ## Contribution
@@ -295,8 +268,6 @@ These findings suggest that urban railway systems should be interpreted as layer
 - Multi-axis (6D) structural representation
 - Diffusion-based signal modeling
 - Network-aware interpretation of urban roles
-
-In particular, this project contributes a role-based interpretation framework that connects graph structure, spatial context, and urban function.
 
 ---
 
@@ -307,8 +278,6 @@ In particular, this project contributes a role-based interpretation framework th
 - Hyperparameter sensitivity
 - Small station classification limitations
 
-These limitations reflect the trade-off between interpretability and full statistical independence.
-
 ---
 
 ## Data
@@ -316,8 +285,6 @@ These limitations reflect the trade-off between interpretability and full statis
 - Ridership data: 2011–2017
 - 2017 used as **reference anchor**
 - Temporal features derived from multi-year trends
-
-The final framework therefore combines a reference-year structural snapshot with multi-year temporal information.
 
 ---
 
