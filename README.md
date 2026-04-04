@@ -37,11 +37,11 @@ Rather than treating stations as a single ranked list, this project interprets t
 - Constructed a **6-dimensional feature space** for role analysis
 - Confirmed that the **diffused signal outperformed ridership on most tested structural metrics**
 - Identified interpretable station roles:
-  - **CBD (Central Business District)**
-  - **Transfer Hub**
-  - **Sub-center**
-  - **Residential**
-  - **Mega Hub**
+  - **153 CBD (Central Business District)**
+  - **41 Transfer Hub**
+  - **26 Sub-center**
+  - **254 Residential**
+  - **12 Mega Hub**
 
 ---
 
