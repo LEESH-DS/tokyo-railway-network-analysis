@@ -65,7 +65,7 @@ HUB_Q = 0.97
 MAX_HOP = 2
 LOCAL_EPS = 1.0
 
-GMM_K = 5
+GMM_K = 12
 RAND = 42
 
 TOKYO23 = [
@@ -844,12 +844,12 @@ scale_df = pd.DataFrame({
 })
 
 corr = df[feat].corr()
-print("\n=== Feature correlation ===")
+print("\n=== Axes correlation ===")
 print(corr.round(3).to_string())
 
 plt.figure(figsize=(8, 6))
 sns.heatmap(corr, annot=True, cmap="coolwarm", center=0, fmt=".2f")
-plt.title("Feature correlation")
+plt.title("Axes correlation")
 plt.tight_layout()
 plt.show()
 
