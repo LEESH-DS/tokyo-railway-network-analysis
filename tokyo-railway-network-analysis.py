@@ -1359,3 +1359,13 @@ ax.set_axis_off()
 
 plt.tight_layout()
 plt.show()
+
+for role in ["Transfer Hub", "Sub-center"]:
+    print(f"\n=== {role} ===")
+    print(
+        final.loc[final["urban_role"] == role, "station_name"]
+        .dropna()
+        .drop_duplicates()
+        .sort_values()
+        .to_string(index=False)
+    )

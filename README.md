@@ -129,7 +129,7 @@ The final model uses the following six axes:
 
 ### Axes Correlation
 
-![Axes Correlation](outputs/Feature_Correlation.png)
+![Axes Correlation](outputs/Axes_Correlation.png)
 
 The axes are related but not fully redundant. In particular, **independence** tends to show an opposite pattern from more centrality-oriented axes, supporting its role as a complementary dimension.
 
