@@ -65,7 +65,7 @@ HUB_Q = 0.97
 MAX_HOP = 2
 LOCAL_EPS = 1.0
 
-GMM_K = 5
+GMM_K = 12
 RAND = 42
 
 TOKYO23 = [
@@ -255,7 +255,6 @@ def get_role_colors():
         "Transfer Hub": "#e39c37",
         "Sub-center": "#8c6bb1",
         "Residential": "#4f9d69",
-        "Mixed": "#9a9a9a",
     }
 
 
@@ -702,7 +701,7 @@ nd["sig_local_ratio"] = nd["sig"] / (nd["nb_mean"].fillna(0.0) + LOCAL_EPS)
 
 
 # =========================================================
-# 13. SIGNAL AXES (7D)
+# 13. SIGNAL AXES (6D + residual) 
 # =========================================================
 df = nd.copy()
 
@@ -762,6 +761,11 @@ df["indep"] = (
     0.60 * z(df["hub_exp"]).fillna(0.0)
 )
 
+df["temp"] = (
+    0.45 * z(df["sig_growth"]).fillna(0.0) +
+    0.35 * z(df["sig_slope"]).fillna(0.0) +
+    0.20 * z(df["sig_stab"]).fillna(0.0)
+)
 
 # residual
 exp_feat = [
@@ -778,12 +782,6 @@ rf = sm.OLS(y, sm.add_constant(X)).fit()
 pred_exp = rf.predict(sm.add_constant(X))
 df["resid"] = df["log_rid"] - pred_exp
 df["resid"] = z_clip(df["resid"], 0.01, 0.99)
-
-df["temp"] = (
-    0.45 * z(df["sig_growth"]).fillna(0.0) +
-    0.35 * z(df["sig_slope"]).fillna(0.0) +
-    0.20 * z(df["sig_stab"]).fillna(0.0)
-)
 
 # merge back
 keep = ["node_id", "demand", "flow", "transfer", "struct", "indep", "resid", "temp", "sig_growth", "sig_slope", "sig_stab", "log_rid"]
@@ -846,12 +844,12 @@ scale_df = pd.DataFrame({
 })
 
 corr = df[feat].corr()
-print("\n=== Feature correlation ===")
+print("\n=== Axes correlation ===")
 print(corr.round(3).to_string())
 
 plt.figure(figsize=(8, 6))
 sns.heatmap(corr, annot=True, cmap="coolwarm", center=0, fmt=".2f")
-plt.title("Feature correlation")
+plt.title("Axes correlation")
 plt.tight_layout()
 plt.show()
 
@@ -1010,7 +1008,7 @@ for ln in line_names:
         zorder=2
     )
 
-order = ["Mixed", "Residential", "Sub-center", "Transfer Hub", "CBD", "Mega Hub"]
+order = ["Residential", "Sub-center", "Transfer Hub", "CBD", "Mega Hub"]
 
 for rr in order:
     g = plot_df[(plot_df["urban_role"] == rr) & mask].copy()
@@ -1361,3 +1359,13 @@ ax.set_axis_off()
 
 plt.tight_layout()
 plt.show()
+
+for role in ["Transfer Hub", "Sub-center"]:
+    print(f"\n=== {role} ===")
+    print(
+        final.loc[final["urban_role"] == role, "station_name"]
+        .dropna()
+        .drop_duplicates()
+        .sort_values()
+        .to_string(index=False)
+    )
